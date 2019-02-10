@@ -356,6 +356,14 @@ void m2() {
     printed = 0;
   }
   lastState2 = ButtonState2;
+
+  if (ButtonState3 && ButtonState3 != lastState3) // button latch, no debounce needed.
+  {
+    menuNumber = 20;
+    printed = 0;
+  }
+  lastState3 = ButtonState3;
+  
 }
 
 void printMenuOnLCD() {
@@ -379,9 +387,9 @@ void printMenuOnLCD() {
      case 21:
       m21(); break;
     case 101:
-      m111();    break;
+      m101();    break;
     case 201:
-      m211();    break;
+      m201();    break;
     case 111:
       m111();    break;
     case 211:
