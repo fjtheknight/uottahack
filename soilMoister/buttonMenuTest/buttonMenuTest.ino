@@ -3,6 +3,11 @@ const byte Button2 = 4;
 const byte Button3 = 3;
 const byte Button4 = 7;
 
+String wateringSystem = "";
+String plant = "";
+String frequency = "";
+boolean watering = 0;  
+
 byte ButtonState1;
 byte lastState1 = LOW;
 
@@ -286,6 +291,11 @@ void m101() {
   lcd.print("Plant: Tomato");
   lcd.setCursor(1, 1);
   lcd.print("Selected");
+
+  wateringSystem = "Plant based";
+  plant = "Tomato";
+  frequency = "";
+  
   delay(2000);
   menuNumber = 0;
 }
@@ -299,6 +309,12 @@ void m111() {
   lcd.print("Plant: Pepper");
   lcd.setCursor(1, 1);
   lcd.print("Selected");
+
+  wateringSystem = "Plant based";
+  plant = "Pepper";
+  frequency = "";
+
+  
   delay(2000);
   menuNumber = 0;
 }
@@ -312,6 +328,10 @@ void m201() {
   lcd.print("4 hours");
   lcd.setCursor(1, 1);
   lcd.print("Selected");
+
+  wateringSystem = "Frequency based";
+  frequency = "4";
+  
   delay(2000);
   menuNumber = 0;
 }
@@ -324,6 +344,10 @@ void m211() {
   lcd.print("12 hours");
   lcd.setCursor(1, 1);
   lcd.print("Selected");
+
+  wateringSystem = "Frequency based";
+  frequency = "4";
+  
   delay(2000);
   menuNumber = 0;
 }
@@ -401,6 +425,16 @@ void printMenuOnLCD() {
   //  lcd.print(menuItems[menuPage + 1]);
 }
 
+String text(){
+  String s = "";
+  String s1 = "#S|TEST|[";
+  String s2 = ";";
+  String s3 = "]#";
+
+  s = s1+s2+s3;
+  return s;
+}
+
 void setup() {
   Serial.begin(9600);
   pinMode(Button1, INPUT);
@@ -431,9 +465,10 @@ void loop() {
   ButtonState2 = digitalRead(Button2);
   ButtonState3 = digitalRead(Button3);
   ButtonState4 = digitalRead(Button4);
-  Serial.println(menuNumber);
+  Serial.print(text());
+ // Serial.println(menuNumber);
   printMenuOnLCD();
-  delay(100);
+  delay(4000);
 
 
 
