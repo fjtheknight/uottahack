@@ -3,18 +3,18 @@ const byte Button2 = 4;
 const byte Button3 = 3;
 const byte Button4 = 7;
 
-String wateringSystem = "";
-String plant = "";
-String frequency = "";
-String moisture = "";
-String watering = "";
+String wateringSystem = "Not Slect.";
+String plant = "-";
+String frequency = "-";
+String moisture = "-";
+String watering = "-";
 
 int moistLevel = 0;
 
 
 
-int val = 0; //value for storing moisture value 
-int soilPin = A0;//Declare a variable for the soil moisture sensor 
+int val = 0; //value for storing moisture value
+int soilPin = A0;//Declare a variable for the soil moisture sensor
 int soilPower = 7;//Variable for Soil moisture Power
 
 
@@ -58,11 +58,11 @@ rgb_lcd lcd;
 int readSoil()
 {
 
-    digitalWrite(soilPower, HIGH);//turn D7 "On"
-    delay(10);//wait 10 milliseconds 
-    val = analogRead(soilPin);//Read the SIG value form sensor 
-    digitalWrite(soilPower, LOW);//turn D7 "Off"
-    return val;//send current moisture value
+  digitalWrite(soilPower, HIGH);//turn D7 "On"
+  delay(10);//wait 10 milliseconds
+  val = analogRead(soilPin);//Read the SIG value form sensor
+  digitalWrite(soilPower, LOW);//turn D7 "Off"
+  return val;//send current moisture value
 }
 
 
@@ -73,9 +73,14 @@ void m0() {
   if (!printed) {
     lcd.clear();
     lcd.setCursor(1, 0);
-    lcd.print("Wat. sys "+wateringSystem);
-    lcd.setCursor(1, 1);
-    lcd.print("moisture " + moisture);
+    lcd.print("Wtr:"+watering);
+    lcd.setCursor(10, 0);
+    lcd.print("Frq:" + frequency);
+    lcd.setCursor(10, 1);
+    lcd.print(plant);
+    lcd.setCursor(0, 1);
+    lcd.print("Mst:" + moisture);
+
     printed = 1;
   }
 
@@ -102,9 +107,9 @@ void m0() {
 void m1() {
   if (!printed) {
     lcd.clear();
-    lcd.setCursor(1, 0);
+    lcd.setCursor(2, 0);
     lcd.print("Select plant");
-    lcd.setCursor(1, 1);
+    lcd.setCursor(2, 1);
     lcd.print("based system");
     printed = 1;
   }
@@ -332,7 +337,7 @@ void m101() {
 
   wateringSystem = "Plant based";
   plant = "Tomato";
-  frequency = "";
+  frequency = "-";
 
   delay(2000);
   menuNumber = 0;
@@ -350,7 +355,7 @@ void m111() {
 
   wateringSystem = "Plant based";
   plant = "Pepper";
-  frequency = "";
+  frequency = "-";
 
 
   delay(2000);
@@ -395,9 +400,9 @@ void m211() {
 void m2() {
   if (!printed) {
     lcd.clear();
-    lcd.setCursor(1, 0);
+    lcd.setCursor(0, 0);
     lcd.print("Select frequency");
-    lcd.setCursor(1, 1);
+    lcd.setCursor(2, 1);
     lcd.print("based system");
     printed = 1;
   }
@@ -471,7 +476,7 @@ String text() {
   String s2 = ";";
   String s3 = "]#";
 
-  s = s1 + s+ s2 + moisture + s2 + watering + s2 + wateringSystem + s2 + plant + s2 + frequency + s2 + s3;
+  s = s1 + s + s2 + moisture + s2 + watering + s2 + wateringSystem + s2 + plant + s2 + frequency + s2 + s3;
   return s;
 }
 
@@ -482,7 +487,13 @@ void waterFreq() {
 
 
 void waterMoist() {
-  if (moistLevel <  600) {
+  int x = 500;
+  if(plant == "Tomato"){
+    x = 600;
+  } else if(plant == "Pepper"){
+    x = 700;
+  }
+  if (moistLevel <  x) {
     watering = "yes";
   } else {
     watering = "no";
@@ -499,7 +510,7 @@ void setup() {
   pinMode(Button4, INPUT);
 
 
-    pinMode(soilPower, OUTPUT);//Set D7 as an OUTPUT
+  pinMode(soilPower, OUTPUT);//Set D7 as an OUTPUT
   digitalWrite(soilPower, LOW);//Set to LOW so no power is flowing through the sensor
 
   lcd.begin(16, 2);
@@ -528,14 +539,32 @@ void loop() {
   ButtonState2 = digitalRead(Button2);
   ButtonState3 = digitalRead(Button3);
   ButtonState4 = digitalRead(Button4);
-  currentMillis = millis();
 
+
+  if (currentMillis - startMillis >= period)  //test whether the period has elapsed
+  {
+    moistLevel = readSoil();
+    moisture = String(moistLevel / 10);
+    moisture += "%";
+
+    Serial.println(text());
+    startMillis = currentMillis;  //IMPORTANT to save the start time of the current LED state.
+    //watering = "no";
+    printed = 0;
+
+  }
+  
 
   if (frequency == "4") {
     if (currentMillisWatering - startMillisWatering >= 4 * periodWatering) //test whether the period has elapsed
     {
       waterFreq();
       startMillisWatering = currentMillisWatering;  //IMPORTANT to save the start time of the current LED state.
+    } else {
+      if (currentMillisWatering - startMillisWatering >= periodWatering) {
+        watering = "no";
+      }
+
     }
   }
 
@@ -544,6 +573,10 @@ void loop() {
     {
       waterFreq();
       startMillisWatering = currentMillisWatering;  //IMPORTANT to save the start time of the current LED state.
+    } else {
+      if (currentMillisWatering - startMillisWatering >= periodWatering) {
+        watering = "no";
+      }
     }
 
   } else {
@@ -555,20 +588,13 @@ void loop() {
   }
 
 
-  if (currentMillis - startMillis >= period)  //test whether the period has elapsed
-  {
-    moistLevel = readSoil();
-    moisture = String(moistLevel/10);
-    moisture += "%";
-
-    Serial.println(text());
-    startMillis = currentMillis;  //IMPORTANT to save the start time of the current LED state.
-    watering = "no";
-  }
-  // Serial.println(menuNumber);
+  //Serial.println(watering);
   printMenuOnLCD();
   delay(100);
 
+
+    currentMillis = millis();
+  currentMillisWatering = millis();
 
 
 }
