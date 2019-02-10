@@ -1,5 +1,7 @@
 const byte Button1 = 2;
 const byte Button2 = 4;
+const byte Button3 = 3;
+const byte Button4 = 7;
 
 byte ButtonState1;
 byte lastState1 = LOW;
@@ -83,7 +85,7 @@ void m1() {
 
   if (ButtonState3 && ButtonState3 != lastState3) // button latch, no debounce needed.
   {
-    menuNumber = 11;
+    menuNumber = 10;
     printed = 0;
   }
   lastState3 = ButtonState3;
@@ -94,24 +96,237 @@ void m1() {
 //    printed = 0;
 //  }
 //  lastState4 = ButtonState4;
-//}
+}
 
 //************************************************************************
 //************************************************************************
 
+void m10() {
+  if (!printed) {
+    lcd.clear();
+    lcd.setCursor(1, 0);
+    lcd.print("Plant: Tomato");
+    lcd.setCursor(1, 1);
+    lcd.print("% moister: 60%");
+    printed = 1;
+  }
+
+  if (ButtonState1 && ButtonState1 != lastState1) // button latch, no debounce needed.
+  {
+
+    menuNumber = 11;
+    printed = 0;
+
+  }
+  lastState1 = ButtonState1;
+
+
+  if (ButtonState2 && ButtonState2 != lastState2) // button latch, no debounce needed.
+  {
+    menuNumber = 11;
+    printed = 0;
+  }
+  lastState2 = ButtonState2;
+
+  if (ButtonState3 && ButtonState3 != lastState3) // button latch, no debounce needed.
+  {
+    menuNumber = 101;
+    printed = 0;
+  }
+  lastState3 = ButtonState3;
+
+  if (ButtonState4 && ButtonState4 != lastState4) // button latch, no debounce needed.
+  {
+    menuNumber = 1;
+    printed = 0;
+  }
+  lastState4 = ButtonState4;
+}
 
 //************************************************************************
 //************************************************************************
 
+void m11() {
+  if (!printed) {
+    lcd.clear();
+    lcd.setCursor(1, 0);
+    lcd.print("Plant: Pepper");
+    lcd.setCursor(1, 1);
+    lcd.print("% moister: 70%");
+    printed = 1;
+  }
+
+  if (ButtonState1 && ButtonState1 != lastState1) // button latch, no debounce needed.
+  {
+
+    menuNumber = 10;
+    printed = 0;
+
+  }
+  lastState1 = ButtonState1;
+
+
+  if (ButtonState2 && ButtonState2 != lastState2) // button latch, no debounce needed.
+  {
+    menuNumber = 10;
+    printed = 0;
+  }
+  lastState2 = ButtonState2;
+
+  if (ButtonState3 && ButtonState3 != lastState3) // button latch, no debounce needed.
+  {
+    menuNumber = 111;
+    printed = 0;
+  }
+  lastState3 = ButtonState3;
+
+  if (ButtonState4 && ButtonState4 != lastState4) // button latch, no debounce needed.
+  {
+    menuNumber = 1;
+    printed = 0;
+  }
+  lastState4 = ButtonState4;
+}
 
 //************************************************************************
 //************************************************************************
 
+void m20() {
+  if (!printed) {
+    lcd.clear();
+    lcd.setCursor(1, 0);
+    lcd.print("Frequency:");
+    lcd.setCursor(1, 1);
+    lcd.print("4 hours");
+    printed = 1;
+  }
+
+  if (ButtonState1 && ButtonState1 != lastState1) // button latch, no debounce needed.
+  {
+
+    menuNumber = 21;
+    printed = 0;
+
+  }
+  lastState1 = ButtonState1;
+
+
+  if (ButtonState2 && ButtonState2 != lastState2) // button latch, no debounce needed.
+  {
+    menuNumber = 21;
+    printed = 0;
+  }
+  lastState2 = ButtonState2;
+
+  if (ButtonState3 && ButtonState3 != lastState3) // button latch, no debounce needed.
+  {
+    menuNumber = 201;
+    printed = 0;
+  }
+  lastState3 = ButtonState3;
+
+  if (ButtonState4 && ButtonState4 != lastState4) // button latch, no debounce needed.
+  {
+    menuNumber = 2;
+    printed = 0;
+  }
+  lastState4 = ButtonState4;
+}
+
+//************************************************************************
+//************************************************************************
+void m21() {
+  if (!printed) {
+    lcd.clear();
+    lcd.setCursor(1, 0);
+    lcd.print("Frequency:");
+    lcd.setCursor(1, 1);
+    lcd.print("12 hours");
+    printed = 1;
+  }
+
+  if (ButtonState1 && ButtonState1 != lastState1) // button latch, no debounce needed.
+  {
+
+    menuNumber = 20;
+    printed = 0;
+
+  }
+  lastState1 = ButtonState1;
+
+
+  if (ButtonState2 && ButtonState2 != lastState2) // button latch, no debounce needed.
+  {
+    menuNumber = 20;
+    printed = 0;
+  }
+  lastState2 = ButtonState2;
+
+  if (ButtonState3 && ButtonState3 != lastState3) // button latch, no debounce needed.
+  {
+    menuNumber = 211;
+    printed = 0;
+  }
+  lastState3 = ButtonState3;
+
+  if (ButtonState4 && ButtonState4 != lastState4) // button latch, no debounce needed.
+  {
+    menuNumber = 2;
+    printed = 0;
+  }
+  lastState4 = ButtonState4;
+}
 
 //************************************************************************
 //************************************************************************
 
+void m101() {
+  lcd.clear();
+  lcd.setCursor(1, 0);
+  lcd.print("Plant: Tomato");
+  lcd.setCursor(1, 1);
+  lcd.print("Selected");
+  delay(2000);
+  menuNumber = 0;
+}
 
+//************************************************************************
+//************************************************************************
+
+void m111() {
+  lcd.clear();
+  lcd.setCursor(1, 0);
+  lcd.print("Plant: Pepper");
+  lcd.setCursor(1, 1);
+  lcd.print("Selected");
+  delay(2000);
+  menuNumber = 0;
+}
+
+//************************************************************************
+//************************************************************************
+
+void m201() {
+  lcd.clear();
+  lcd.setCursor(1, 0);
+  lcd.print("4 hours");
+  lcd.setCursor(1, 1);
+  lcd.print("Selected");
+  delay(2000);
+  menuNumber = 0;
+}
+//************************************************************************
+//************************************************************************
+
+void m211() {
+  lcd.clear();
+  lcd.setCursor(1, 0);
+  lcd.print("12 hours");
+  lcd.setCursor(1, 1);
+  lcd.print("Selected");
+  delay(2000);
+  menuNumber = 0;
+}
 //************************************************************************
 //************************************************************************
 
@@ -155,18 +370,22 @@ void printMenuOnLCD() {
       m1(); break;
     case 2:
       m2(); break;
-    case 32:
-      lcd.setCursor(1, 0);
-      lcd.print("menu 3");    break;
-    case 42:
-      lcd.setCursor(1, 0);
-      lcd.print("menu 4");    break;
-    case 52:
-      lcd.setCursor(1, 0);
-      lcd.print("menu 5");    break;
-    default:
-      lcd.setCursor(1, 0);
-      lcd.print("menu 0");    break;
+    case 10:
+      m10();    break;
+    case 11:
+      m11(); break;
+    case 20:
+      m20();    break;
+     case 21:
+      m21(); break;
+    case 101:
+      m111();    break;
+    case 201:
+      m211();    break;
+    case 111:
+      m111();    break;
+    case 211:
+      m211();    break;
   }
 
   //  lcd.print(menuItems[menuPage]);
@@ -202,6 +421,8 @@ void setup() {
 void loop() {
   ButtonState1 = digitalRead(Button1);
   ButtonState2 = digitalRead(Button2);
+  ButtonState3 = digitalRead(Button3);
+  ButtonState4 = digitalRead(Button4);
   Serial.println(menuNumber);
   printMenuOnLCD();
   delay(100);
