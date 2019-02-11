@@ -527,7 +527,7 @@ void setup() {
   lcd.setCursor(1, 0);
   lcd.print("Team");
   lcd.setCursor(1, 1);
-  lcd.print("sorry I forgot");
+  lcd.print("PowerPlant");
   delay(4000);
   menuNumber = 0;
   startMillis = millis();  //initial start time
@@ -541,19 +541,6 @@ void loop() {
   ButtonState4 = digitalRead(Button4);
 
 
-  if (currentMillis - startMillis >= period)  //test whether the period has elapsed
-  {
-    moistLevel = readSoil();
-    moisture = String(moistLevel / 10);
-    moisture += "%";
-
-    Serial.println(text());
-    startMillis = currentMillis;  //IMPORTANT to save the start time of the current LED state.
-    //watering = "no";
-    printed = 0;
-
-  }
-  
 
   if (frequency == "4") {
     if (currentMillisWatering - startMillisWatering >= 4 * periodWatering) //test whether the period has elapsed
@@ -588,6 +575,18 @@ void loop() {
   }
 
 
+  if (currentMillis - startMillis >= period)  //test whether the period has elapsed
+  {
+    moistLevel = readSoil();
+    moisture = String(moistLevel / 14);
+    moisture += "%";
+
+    Serial.println(text());
+    startMillis = currentMillis;  //IMPORTANT to save the start time of the current LED state.
+    //watering = "no";
+    printed = 0;
+
+  }
   //Serial.println(watering);
   printMenuOnLCD();
   delay(100);
